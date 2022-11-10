@@ -96,6 +96,7 @@ class StreamMessageWidget extends StatefulWidget {
     this.imageAttachmentThumbnailSize = const Size(400, 400),
     this.imageAttachmentThumbnailResizeType = 'clip',
     this.imageAttachmentThumbnailCropType = 'center',
+    this.httpHeaders,
   }) : attachmentBuilders = {
           'image': (context, message, attachments) {
             final border = RoundedRectangleBorder(
@@ -129,6 +130,7 @@ class StreamMessageWidget extends StatefulWidget {
                       imageThumbnailResizeType:
                           imageAttachmentThumbnailResizeType,
                       imageThumbnailCropType: imageAttachmentThumbnailCropType,
+                      httpHeaders: httpHeaders,
                     ),
                   ),
                   attachmentShape: border,
@@ -138,6 +140,7 @@ class StreamMessageWidget extends StatefulWidget {
 
             return WrapAttachmentWidget(
               attachmentWidget: StreamImageAttachment(
+                httpHeaders: httpHeaders,
                 attachment: attachments[0],
                 message: message,
                 messageTheme: messageTheme,
@@ -158,6 +161,7 @@ class StreamMessageWidget extends StatefulWidget {
                 imageThumbnailCropType: imageAttachmentThumbnailCropType,
               ),
               attachmentShape: border,
+
             );
           },
           'video': (context, message, attachments) {
@@ -175,6 +179,7 @@ class StreamMessageWidget extends StatefulWidget {
                   final mediaQueryData = MediaQuery.of(context);
                   return StreamVideoAttachment(
                     attachment: attachment,
+                    httpHeaders: httpHeaders,
                     messageTheme: messageTheme,
                     constraints: BoxConstraints(
                       maxWidth: 400,
@@ -525,6 +530,8 @@ class StreamMessageWidget extends StatefulWidget {
   /// Defaults to [center]
   final String /*center|top|bottom|left|right*/
       imageAttachmentThumbnailCropType;
+
+  final Map<String, String>? httpHeaders;
 
   /// {@template copyWith}
   /// Creates a copy of [StreamMessageWidget] with specified attributes
